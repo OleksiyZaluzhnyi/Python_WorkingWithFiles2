@@ -37,6 +37,8 @@ except OSError:
 all_categories = empty_categories()
 male_categories = empty_categories()
 female_categories = empty_categories()
+male_total = 0
+female_total = 0
 
 for row in reader[1:]:
     gender = row[3].strip()
@@ -56,8 +58,10 @@ for row in reader[1:]:
 
     if gender == "Ч":
         male_categories[category] += 1
+        male_total += 1
     elif gender == "Ж":
         female_categories[category] += 1
+        female_total += 1
 
 
 print("Кількість співробітників за віковими категоріями:")
@@ -70,6 +74,10 @@ for key, label in CATEGORY_LABELS.items():
         f"{label}: чоловіки - {male_categories[key]}, "
         f"жінки - {female_categories[key]}"
     )
+
+print("\nЗагальна кількість співробітників за статтю:")
+print(f"Чоловіки: {male_total}")
+print(f"Жінки: {female_total}")
 
 labels = list(CATEGORY_LABELS.values())
 all_values = [all_categories[key] for key in CATEGORY_LABELS]
@@ -106,5 +114,12 @@ plt.title("Кількість чоловіків і жінок у кожній �
 plt.xlabel("Вікова категорія")
 plt.ylabel("Кількість співробітників")
 plt.legend()
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(7, 5))
+plt.bar(["Чоловіки", "Жінки"], [male_total, female_total], color=["cornflowerblue", "lightcoral"])
+plt.title("Загальна кількість чоловіків і жінок")
+plt.ylabel("Кількість співробітників")
 plt.tight_layout()
 plt.show()
